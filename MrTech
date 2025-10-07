@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Epey Neo – EnesTech</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      transition: 0.3s ease;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: #0f1115;
+      color: #eee;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(90deg, #0078ff, #00c6ff);
+      color: white;
+      text-align: center;
+      padding: 18px;
+      font-size: 22px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    .search-box input {
+      width: 80%;
+      max-width: 420px;
+      padding: 10px;
+      border: none;
+      border-radius: 25px;
+      font-size: 15px;
+      outline: none;
+      color: #fff;
+      background: #1c1f26;
+      box-shadow: 0 0 10px rgba(0, 120, 255, 0.3);
+    }
+
+    .phone-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      padding: 20px;
+      animation: fadeIn 1s ease;
+    }
+
+    .phone {
+      background: #1c1f26;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      text-align: center;
+      padding: 15px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+      opacity: 0;
+      animation: popUp 0.8s forwards;
+    }
+
+    @keyframes popUp {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .phone:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0, 120, 255, 0.6);
+    }
+
+    .phone img {
+      width: 140px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .phone h2 {
+      font-size: 18px;
+      color: #00aaff;
+      margin-bottom: 5px;
+    }
+
+    .specs {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      background: #0078ff;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background: #005fcc;
+    }
+
+    .details {
+      display: none;
+      padding: 20px;
+      background: #181b20;
+      border-radius: 12px;
+      margin: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      animation: slideIn 0.6s ease;
+    }
+
+    @keyframes slideIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .details img {
+      width: 200px;
+      display: block;
+      margin: 0 auto 15px auto;
+      border-radius: 10px;
+    }
+
+    .details h2 {
+      color: #00aaff;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .section-title {
+      font-weight: bold;
+      color: #66b3ff;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin: 5px 0;
+      padding: 8px;
+      background: #21242b;
+      border-radius: 6px;
+      color: #bbb;
+    }
+
+    .back-btn {
+      background: #ff7043;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .back-btn:hover {
+      background: #ff512f;
+    }
+
+    footer {
+      text-align: center;
+      background: #0d0f12;
+      padding: 12px;
+      font-size: 13px;
+      color: #777;
+      border-top: 1px solid #222;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+  </style>
+</head>
+<body>
+
+<header>🌙 EnesTech – Epey Neo</header>
+
+<div class="search-box">
+  <input type="text" id="search" placeholder="Telefon ara... (örnek: Redmi)">
+</div>
+
+<div class="phone-list" id="phoneList"></div>
+<div class="details" id="details">
+  <img id="detailImg" src="">
+  <h2 id="detailTitle"></h2>
+
+  <div class="section-title">📱 Ekran ve Görünüm</div>
+  <ul id="detailDisplay"></ul>
+
+  <div class="section-title">📷 Kamera</div>
+  <ul id="detailCamera"></ul>
+
+  <div class="section-title">⚙️ Performans ve Yazılım</div>
+  <ul id="detailPerformance"></ul>
+
+  <div class="section-title">🔋 Batarya & Şarj</div>
+  <ul id="detailBattery"></ul>
+
+  <div class="section-title">🔌 Diğer Özellikler</div>
+  <ul id="detailOther"></ul>
+
+  <button class="back-btn" onclick="goBack()">◀️ Geri Dön</button>
+</div>
+
+<footer>© 2025 EnesTech. Karanlık Taraf Daha Güçlü.</footer>
+
+<script>
+const phones = [
+  {
+    id: "s24",
+    name: "Galaxy S24 FE",
+    img: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-s24-fe-1.jpg",
+    link: "https://app.hb.biz/cypVK6T2EuBY",
+    specs: "Ekran: 6.7″ AMOLED | Kamera: 50MP | RAM: 8GB",
+    display: ["6.7 inç AMOLED", "120Hz yenileme", "HDR10+", "Gorilla Glass koruma"],
+    camera: ["50MP ana kamera", "12MP ultra geniş", "8MP telefoto", "10MP ön kamera"],
+    performance: ["Exynos 2400e", "8GB RAM", "256GB depolama"],
+    battery: ["4700mAh", "25W hızlı şarj"],
+    other: ["IP68", "Android 15", "NFC, Bluetooth 5.3"]
+  },
+  {
+    id: "honor",
+    name: "Honor 400",
+    img: "https://fdn2.gsmarena.com/vv/pics/honor/honor-200-5g-1.jpg",
+    link: "https://app.hb.biz/OaDoslUOlJqL",
+    specs: "Ekran: 6.5″ OLED | Kamera: 108MP | RAM: 8GB",
+    display: ["6.5 inç OLED", "2736x1264 px", "120Hz yenileme"],
+    camera: ["108MP ana kamera", "50MP ön kamera"],
+    performance: ["Snapdragon 7 Gen 3", "8GB RAM", "256GB depolama"],
+    battery: ["5300mAh", "66W hızlı şarj"],
+    other: ["5G, NFC", "Android 15", "Bluetooth 5.3"]
+  },
+  {
+    id: "a36",
+    name: "Galaxy A36",
+    img: "https://fdn2.gsmarena.com/vv/pics/samsung/samsung-galaxy-a35-1.jpg",
+    link: "https://app.hb.biz/pNZkrpC7tqRR",
+    specs: "Ekran: 6.6″ AMOLED | Kamera: 50MP | RAM: 8GB",
+    display: ["6.6 inç Super AMOLED", "120Hz", "FHD+ çözünürlük"],
+    camera: ["50MP ana kamera", "8MP geniş açı", "2MP derinlik sensörü"],
+    performance: ["Exynos 1380", "8GB RAM", "256GB depolama"],
+    battery: ["5000mAh", "25W hızlı şarj"],
+    other: ["IP67 suya dayanıklı", "Android 14"]
+  },
+  {
+    id: "note14",
+    name: "Redmi Note 14 Pro 4G",
+    img: "https://fdn2.gsmarena.com/vv/pics/xiaomi/xiaomi-redmi-note-14-pro-1.jpg",
+    link: "https://app.hb.biz/ljQTmjfc9GYS",
+    specs: "Ekran: 6.7″ AMOLED | Kamera: 200MP | RAM: 8GB",
+    display: ["6.7 inç AMOLED", "2400x1080 px", "120Hz"],
+    camera: ["200MP ana kamera", "8MP ultra geniş", "2MP makro"],
+    performance: ["Helio G99", "8GB RAM", "256GB depolama"],
+    battery: ["5000mAh", "33W hızlı şarj"],
+    other: ["4G, NFC", "Android 14 / MIUI"]
+  }
+];
+
+const phoneList = document.getElementById("phoneList");
+const details = document.getElementById("details");
+
+function renderPhones(list) {
+  phoneList.innerHTML = "";
+  list.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "phone";
+    card.innerHTML = `
+      <img src="${p.img}">
+      <h2>${p.name}</h2>
+      <div class="specs">${p.specs}</div>
+      <a href="${p.link}" class="btn" target="_blank">Hepsiburada'da Gör</a>
+    `;
+    card.onclick = () => showDetails(p);
+    phoneList.appendChild(card);
+  });
+}
+
+function showDetails(p) {
+  phoneList.style.display = "none";
+  details.style.display = "block";
+  document.getElementById("detailImg").src = p.img;
+  document.getElementById("detailTitle").textContent = p.name;
+  fillList(p.display, "detailDisplay");
+  fillList(p.camera, "detailCamera");
+  fillList(p.performance, "detailPerformance");
+  fillList(p.battery, "detailBattery");
+  fillList(p.other, "detailOther");
+}
+
+function goBack() {
+  details.style.display = "none";
+  phoneList.style.display = "grid";
+}
+
+function fillList(arr, id) {
+  const ul = document.getElementById(id);
+  ul.innerHTML = "";
+  arr.forEach(i => {
+    const li = document.createElement("li");
+    li.textContent = i;
+    ul.appendChild(li);
+  });
+}
+
+renderPhones(phones);
+
+document.getElementById("search").addEventListener("input", e => {
+  const val = e.target.value.toLowerCase();
+  renderPhones(phones.filter(p => p.name.toLowerCase().includes(val)));
+});
+</script>
+
+</body>
+</html>
